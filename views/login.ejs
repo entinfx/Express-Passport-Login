@@ -7,27 +7,14 @@
     <title><%= title %></title>
 </head>
 <body>
-    <% if (signup) { %>
-        <form action="/users/signup" method="POST">
-    <% } else { %>
-        <form action="/users/login" method="POST">
-    <% } %>
-        <% if (signup) { %>
-            <label for="name">Enter your name</label>
-            <input type="text" name="name" required>
-        <% } %>
-
+    <form action="/login" method="POST">
         <label for="email">Enter your email</label>
         <input type="text" name="email" required>
 
         <label for="password">Enter your password</label>
         <input type="text" name="password" required>
 
-        <% if (signup) { %>
-            <button type="submit">Sign up!</button>
-        <% } else { %>
-            <button type="submit">Log In!</button>
-        <% } %>
+        <button type="submit">Log In!</button>
     </form>
 
 </body>

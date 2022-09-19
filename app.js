@@ -2,10 +2,6 @@
 const express = require('express')
 const app = express()
 
-/* Routes */
-const redirectRoutes = require('./routes/redirect')
-const userRoutes = require('./routes/users')
-
 /* View engine */
 app.set('view engine', 'ejs')
 
@@ -21,14 +17,14 @@ app.use(express.urlencoded({ extended: true }))
 let users = []
 
 /* User authentication routes */
-// Index page:   /
+// Index page: /
 app.get('/', (req, res) => {
-    //
+    res.render('./index', { title: 'Auth Demo', body: 'Passport Auth Demo!' })
 })
 
 // Login form: /login
 app.get('/login', (req, res) => {
-    res.render('./form', { title: 'Log In', signup: false })
+    res.render('./login', { title: 'Log In' })
 })
 
 app.post('/login', (req, res) => {
@@ -48,15 +44,16 @@ app.post('/login', (req, res) => {
     const match = timingSafeEqual(providedPasswordHash, Buffer.from(storedPasswordHash, 'hex'))
 
     if (match) {
-        console.log('Welcome back!')
+        res.render('./index', { title: 'Auth Demo', body: 'Welcome back!' })
     } else {
         console.log('Incorrect login data!')
+        res.render('./login', { title: 'Log In | Error' })
     }
 })
 
 // Sign Up form: /signup
 app.get('/signup', (req, res) => {
-    res.render('./form', { title: 'Sign Up', signup: true })
+    res.render('./signup', { title: 'Sign Up' })
 })
 
 app.post('/signup', (req, res) => {
@@ -75,4 +72,6 @@ app.post('/signup', (req, res) => {
         email,
         passwordHash: `${salt}:${passwordHash}`
     })
+
+    res.render('./index', { title: 'Auth Demo', body: 'Hello, Welcome!' })
 })
