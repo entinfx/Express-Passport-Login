@@ -1,14 +1,14 @@
-/* Environment Variables */
-if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config()
-}
-
-/* Require */
 const express = require('express')
 const flash = require('express-flash')
 const session = require('express-session')
 const methodOverride = require('method-override')
-const passport = require('./authentication/passport-config')
+const authRoutes = require('./routes/authentication')
+const passport = require('./passport-config')
+
+/* Environment Variables */
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config()
+}
 
 /* Server */
 const app = express()
@@ -30,3 +30,6 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(methodOverride('_method'))
+
+/* Request chain */
+app.use(authRoutes)
